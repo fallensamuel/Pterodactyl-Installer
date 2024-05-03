@@ -7,7 +7,7 @@
 #                                                                      #
 #            Pterodactyl Installer, Updater, Remover and More          #
 #            Copyright 2023, Malthe K, <me@malthe.cc> hej              # 
-#  https://github.com/guldkage/Pterodactyl-Installer/blob/main/LICENSE #
+#  https://github.com/fallensamuel/Pterodactyl-Installer/blob/main/LICENSE #
 #                                                                      #
 #  This script is not associated with the official Pterodactyl Panel.  #
 #  You may not remove this line                                        #
@@ -175,7 +175,7 @@ panel_conf(){
         chown -R nginx:nginx /var/www/pterodactyl/*
          systemctl enable --now redis
         fi
-    curl -o /etc/systemd/system/pteroq.service https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/pteroq.service
+    curl -o /etc/systemd/system/pteroq.service https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/pteroq.service
     (crontab -l ; echo "* * * * * php /var/www/pterodactyl/artisan schedule:run >> /dev/null 2>&1")| crontab -
      systemctl enable --now redis-server
      systemctl enable --now pteroq.service
@@ -183,7 +183,7 @@ panel_conf(){
     if [ "$dist" = "centos" ] && { [ "$version" = "7" ] || [ "$SSLSTATUS" = "true" ]; }; then
          yum install epel-release -y
          yum install certbot -y
-        curl -o /etc/nginx/conf.d/pterodactyl.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/pterodactyl-nginx-ssl.conf
+        curl -o /etc/nginx/conf.d/pterodactyl.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/pterodactyl-nginx-ssl.conf
         sed -i -e "s@<domain>@${FQDN}@g" /etc/nginx/conf.d/pterodactyl.conf
         sed -i -e "s@/run/php/php8.1-fpm.sock@/var/run/php-fpm/pterodactyl.sock@g" /etc/nginx/conf.d/pterodactyl.conf
         systemctl stop nginx
@@ -192,7 +192,7 @@ panel_conf(){
         finish
         fi
     if [ "$dist" = "centos" ] && { [ "$version" = "7" ] || [ "$SSLSTATUS" = "false" ]; }; then
-        curl -o /etc/nginx/conf.d/pterodactyl.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/pterodactyl-nginx.conf
+        curl -o /etc/nginx/conf.d/pterodactyl.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/pterodactyl-nginx.conf
         sed -i -e "s@<domain>@${FQDN}@g" /etc/nginx/conf.d/pterodactyl.conf
         sed -i -e "s@/run/php/php8.1-fpm.sock@/var/run/php-fpm/pterodactyl.sock@g" /etc/nginx/conf.d/pterodactyl.conf
         systemctl restart nginx
@@ -200,7 +200,7 @@ panel_conf(){
         fi
     if [ "$SSLSTATUS" = "true" ] && [ "$WEBSERVER" = "NGINX" ]; then
         rm -rf /etc/nginx/sites-enabled/default
-        curl -o /etc/nginx/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/pterodactyl-nginx-ssl.conf
+        curl -o /etc/nginx/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/pterodactyl-nginx-ssl.conf
         sed -i -e "s@<domain>@${FQDN}@g" /etc/nginx/sites-enabled/pterodactyl.conf
 
         systemctl stop nginx
@@ -210,7 +210,7 @@ panel_conf(){
         fi
     if [ "$SSLSTATUS" = "true" ] && [ "$WEBSERVER" = "Apache" ]; then
         a2dissite 000-default.conf && systemctl reload apache2
-        curl -o /etc/apache2/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/pterodactyl-apache-ssl.conf
+        curl -o /etc/apache2/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/pterodactyl-apache-ssl.conf
         sed -i -e "s@<domain>@${FQDN}@g" /etc/apache2/sites-enabled/pterodactyl.conf
         apt install libapache2-mod-php
          a2enmod rewrite
@@ -222,14 +222,14 @@ panel_conf(){
         fi
     if [ "$SSLSTATUS" = "false" ] && [ "$WEBSERVER" = "NGINX" ]; then
         rm -rf /etc/nginx/sites-enabled/default
-        curl -o /etc/nginx/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/pterodactyl-nginx.conf
+        curl -o /etc/nginx/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/pterodactyl-nginx.conf
         sed -i -e "s@<domain>@${FQDN}@g" /etc/nginx/sites-enabled/pterodactyl.conf
         systemctl restart nginx
         finish
         fi
     if [ "$SSLSTATUS" = "false" ] && [ "$WEBSERVER" = "Apache" ]; then
         a2dissite 000-default.conf && systemctl reload apache2
-        curl -o /etc/apache2/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/pterodactyl-apache.conf
+        curl -o /etc/apache2/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/pterodactyl-apache.conf
         sed -i -e "s@<domain>@${FQDN}@g" /etc/apache2/sites-enabled/pterodactyl.conf
          a2enmod rewrite
         systemctl stop apache2
@@ -275,7 +275,7 @@ panel_install(){
         yum update -y
         yum install -y policycoreutils policycoreutils-python selinux-policy selinux-policy-targeted libselinux-utils setroubleshoot-server setools setools-console mcstrans -y
 
-        curl -o /etc/yum.repos.d/mariadb.repo https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/mariadb.repo
+        curl -o /etc/yum.repos.d/mariadb.repo https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/mariadb.repo
 
         yum update -y
         yum install -y mariadb-server
@@ -305,7 +305,7 @@ panel_install(){
         setsebool -P httpd_execmem 1
         setsebool -P httpd_unified 1
 
-        curl -o /etc/php-fpm.d/www-pterodactyl.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/www-pterodactyl.conf
+        curl -o /etc/php-fpm.d/www-pterodactyl.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/www-pterodactyl.conf
         systemctl enable php-fpm
         systemctl start php-fpm
 
@@ -314,7 +314,7 @@ panel_install(){
         mkdir /var/www
         mkdir /var/www/pterodactyl
         cd /var/www/pterodactyl
-        curl -Lo panel.tar.gz https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz
+        curl -Lo panel.tar.gz https://github.com/pterodactyl/panel/releases/download/v1.11.5/panel.tar.gz
         tar -xzvf panel.tar.gz
         chmod -R 755 storage/* bootstrap/cache/
         cp .env.example .env
@@ -533,7 +533,7 @@ wings_full(){
             fi
 
         curl -L -o /usr/local/bin/wings "https://github.com/pterodactyl/wings/releases/latest/download/wings_linux_$([[ "$(uname -m)" == "x86_64" ]] && echo "amd64" || echo "arm64")"
-        curl -o /etc/systemd/system/wings.service https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/wings.service
+        curl -o /etc/systemd/system/wings.service https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/wings.service
         chmod u+x /usr/local/bin/wings
         clear
         echo ""
@@ -599,7 +599,7 @@ phpmyadmin_finish(){
 phpmyadminweb(){
     if  [ "$PHPMYADMIN_SSLSTATUS" =  "true" ]; then
         rm -rf /etc/nginx/sites-enabled/default
-        curl -o /etc/nginx/sites-enabled/phpmyadmin.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/phpmyadmin-ssl.conf
+        curl -o /etc/nginx/sites-enabled/phpmyadmin.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/phpmyadmin-ssl.conf
         sed -i -e "s@<domain>@${PHPMYADMIN_FQDN}@g" /etc/nginx/sites-enabled/phpmyadmin.conf
         systemctl stop nginx || exit || echo "An error occurred. NGINX is not installed." || exit
         certbot certonly --standalone -d $PHPMYADMIN_FQDN --staple-ocsp --no-eff-email -m $PHPMYADMIN_EMAIL --agree-tos || exit || echo "An error occurred. Certbot not installed." || exit
@@ -612,7 +612,7 @@ phpmyadminweb(){
         fi
     if  [ "$PHPMYADMIN_SSLSTATUS" =  "false" ]; then
         rm -rf /etc/nginx/sites-enabled/default || exit || echo "An error occurred. NGINX is not installed." || exit
-        curl -o /etc/nginx/sites-enabled/phpmyadmin.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/phpmyadmin.conf || exit || echo "An error occurred. cURL is not installed." || exit
+        curl -o /etc/nginx/sites-enabled/phpmyadmin.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/phpmyadmin.conf || exit || echo "An error occurred. cURL is not installed." || exit
         sed -i -e "s@<domain>@${PHPMYADMIN_FQDN}@g" /etc/nginx/sites-enabled/phpmyadmin.conf || exit || echo "An error occurred. NGINX is not installed." || exit
         systemctl restart nginx || exit || echo "An error occurred. NGINX is not installed." || exit
 
@@ -866,7 +866,7 @@ switch(){
         echo "    The script is now changing your Pterodactyl Domain."
         echo "      This may take a couple seconds for the SSL part, as SSL certificates are being generated."
         rm /etc/nginx/sites-enabled/pterodactyl.conf
-        curl -o /etc/nginx/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/pterodactyl-nginx-ssl.conf || exit || warning "Pterodactyl Panel not installed!"
+        curl -o /etc/nginx/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/pterodactyl-nginx-ssl.conf || exit || warning "Pterodactyl Panel not installed!"
         sed -i -e "s@<domain>@${DOMAINSWITCH}@g" /etc/nginx/sites-enabled/pterodactyl.conf
         systemctl stop nginx
         certbot certonly --standalone -d $DOMAINSWITCH --staple-ocsp --no-eff-email -m $EMAILSWITCHDOMAINS --agree-tos || exit || warning "Errors accured."
@@ -887,7 +887,7 @@ switch(){
     if  [ "$SSLSWITCH" =  "false" ]; then
         echo "[!] Switching your domain.. This wont take long!"
         rm /etc/nginx/sites-enabled/pterodactyl.conf || exit || echo "An error occurred. Could not delete file." || exit
-        curl -o /etc/nginx/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/guldkage/Pterodactyl-Installer/main/configs/pterodactyl-nginx.conf || exit || warning "Pterodactyl Panel not installed!"
+        curl -o /etc/nginx/sites-enabled/pterodactyl.conf https://raw.githubusercontent.com/fallensamuel/Pterodactyl-Installer/main/configs/pterodactyl-nginx.conf || exit || warning "Pterodactyl Panel not installed!"
         sed -i -e "s@<domain>@${DOMAINSWITCH}@g" /etc/nginx/sites-enabled/pterodactyl.conf
         systemctl restart nginx
         echo ""
@@ -1036,7 +1036,7 @@ clear
 echo ""
 echo "Pterodactyl Installer @ v2.1"
 echo "Copyright 2024, Malthe K, <me@malthe.cc>"
-echo "https://github.com/guldkage/Pterodactyl-Installer"
+echo "https://github.com/fallensamuel/Pterodactyl-Installer"
 echo ""
 echo "This script is not associated with the official Pterodactyl Panel."
 echo ""
